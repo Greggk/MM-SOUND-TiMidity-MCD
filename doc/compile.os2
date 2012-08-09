@@ -1,0 +1,45 @@
+TiMidity++ 2.10.4 for OS/2
+Notes for developers who which to recompile.
+
+Required software:
+emx gcc
+autoconf 2.50 for OS/2
+ncurses for OS/2
+mm4emx 1.1
+
+All these should be available at http://ftp-os2.nmsu.edu
+
+    I've got it working so TiMidity++ will compile with only minimal
+modification to the orginal source code.  Maybe they'll intergrate
+into the standard distribution.
+
+Hints:
+
+The readme.os2 file that comes with autoconf 2.50. It was extreamly 
+useful. 
+
+    In the state that that is now you should be able to compile it by
+just doing make.  You can also run configure to adjust options.
+
+I used these options when running configure to generate the text-mode 
+version:
+
+--without-x --enable-ncurses --enable-network --enable-spline=lagrange --enable-debug --datadir=c:
+
+I used test options for the MCD version:
+
+--without-x --enable-spline=lagrange --enable-debug --datadir=c: --enable-mcd
+
+If you modify configure.in or any one of the makefile.in file you have
+to use touch to change the file dates back to the orginal dates, or 
+make will try and run autoconf or configure for you and if it tries 
+it'll be a disaster. You should run autoconf (for changes to 
+configure.in) or configure (for changes to a makefile.in) yourself.
+
+It will auto-detect that it need to use DART audio when compiling for 
+OS/2.
+
+Darwin O'Connor
+http://www.reamined.on.ca/doconnor/timidity.html
+doconnor@reamined.on.ca
+

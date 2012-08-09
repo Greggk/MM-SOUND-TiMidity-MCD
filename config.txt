@@ -1,0 +1,7 @@
+--without-x --enable-ncurses --enable-network --enable-spline=lagrange --enable-debug --datadir=c:
+
+--without-x --enable-spline=lagrange --enable-debug --datadir=c: --enable-mcd
+
+break read_midi_file
+set args -L /timidity -c /timidity/timidity.cfg /timidity/dagoski.s3m
+

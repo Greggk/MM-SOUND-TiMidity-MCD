@@ -1,0 +1,30 @@
+TiMidity 2.10.4 for OS/2 readme
+
+    Generally things work pretty much the why it says in the main
+README file.
+
+    This version support midi files as well as Module files, including
+.s3m and .xm It can automatically extract file from zip and other
+compression formats. It also can download files directly from the 
+Internet by entering a url. The the main README for more details.
+
+    One thing I found is that often module files download from the
+Internet are often compressed in zip format, even if the file
+extension doesn't indicate that it is.  For example you can download a
+file called "song.mod" which is really a zip file.  TiMidity does not
+automatically detect this and says the file is not a MIDI file.  If
+you rename the file to "song.zip" TiMidity will know it is zip and
+will play the mod file stored in the zip.
+
+    The default user interface is the dumb interface.  Use the option
+"-in" to get the somewhat better ncurses interface.  Use "-int" to 
+active tracing so you can see the notes dance across the screen.
+
+    It has trouble finding the timidity.cfg file if you don't tell it 
+where it is. You may need to use the -c option and the -L option.
+
+    See README.cfg and README.sf for information on the timidity.cfg 
+file.
+
+Darwin O'Connor
+doconnor@reamined.on.ca

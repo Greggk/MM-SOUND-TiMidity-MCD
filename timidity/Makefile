@@ -1,0 +1,464 @@
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
+
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
+# This Makefile.in is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY, to the extent permitted by law; without
+# even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# TiMidity++ -- MIDI to WAVE converter and player
+# Copyright (C) 1999-2001 Masanao Izumo <mo@goice.co.jp>
+# Copyright (C) 1995 Tuukka Toivonen <tt@cgs.fi>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+
+SHELL = /bin/sh
+
+srcdir = .
+top_srcdir = ..
+
+prefix = /usr/local
+exec_prefix = ${prefix}
+
+bindir = ${exec_prefix}/bin
+sbindir = ${exec_prefix}/sbin
+libexecdir = ${exec_prefix}/libexec
+datadir = c:
+sysconfdir = ${prefix}/etc
+sharedstatedir = ${prefix}/com
+localstatedir = ${prefix}/var
+libdir = ${exec_prefix}/lib
+infodir = ${prefix}/info
+mandir = ${prefix}/man
+includedir = ${prefix}/include
+EXEEXT=.exe
+oldincludedir = /usr/include
+
+DESTDIR =
+
+pkgdatadir = $(datadir)/TiMidity++
+pkglibdir = $(libdir)/TiMidity++
+pkgincludedir = $(includedir)/TiMidity++
+
+top_builddir = ..
+
+ACLOCAL = aclocal
+AUTOCONF = autoconf
+AUTOMAKE = C:/timid2104/missing automake
+AUTOHEADER = autoheader
+
+INSTALL = c:/utils/ginstall -c
+INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
+INSTALL_DATA = ${INSTALL} -m 644
+INSTALL_SCRIPT = ${INSTALL}
+transform = s,x,x,
+
+NORMAL_INSTALL = :
+PRE_INSTALL = :
+POST_INSTALL = :
+NORMAL_UNINSTALL = :
+PRE_UNINSTALL = :
+POST_UNINSTALL = :
+build_alias = @build_alias@
+build_triplet = i386-pc-os2-emx
+host_alias = @host_alias@
+host_triplet = i386-pc-os2-emx
+target_alias = @target_alias@
+target_triplet = i386-pc-os2-emx
+ALSA_CFLAGS = 
+ALSA_LIBS = 
+CC = gcc
+ELFILES = 
+EMACS = no
+ESD_CFLAGS = 
+ESD_CONFIG = 
+ESD_LIBS = 
+EXTRALIBS =  -los2me
+GTK_CFLAGS = 
+GTK_CONFIG = 
+GTK_LIBS = 
+INTERFACE_SRCS =  mcd_c.c
+LN_S = ln
+MAKEINFO = C:/timid2104/missing makeinfo
+NETSRCS = 
+PACKAGE = TiMidity++
+RANLIB = :
+SHCFLAGS =  -fPIC
+SHELL = /bin/sh
+SHLD = gcc -shared  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
+SYSEXTRAS =  dart_a.c
+VERSION = 2.10.4
+WISH = wish
+dynamic_targets = 
+lispdir = 
+program_transform_name = s,x,x,
+so = so
+tcltk_dep = 
+timidity_LDFLAGS = 
+
+EXEEXT=.dll
+
+
+INCLUDES =  	-I$(top_srcdir) 	-I$(top_srcdir)/libarc 	-I$(top_srcdir)/libunimod 	-I$(top_srcdir)/interface 	-I$(top_srcdir)/utils 	$(EXTRAINCS)
+
+
+bin_PROGRAMS = timidity$(EXEEXT)
+
+timidity_SOURCES =  	aenc.h 	aiff_a.c 	aq.c 	aq.h 	au_a.c 	audio_cnv.c 	audio_cnv.h 	common.c 	common.h 	controls.c 	controls.h 	dlutils.h 	effect.c 	filter.c 	filter.h 	instrum.c 	instrum.h 	list_a.c 	loadtab.c 	mid-j.defs 	mid.defs 	miditrace.c 	miditrace.h 	mix.c 	mix.h 	mod.c 	mod.h 	mod2midi.c 	mod2midi.h 	output.c 	output.h 	playmidi.c 	playmidi.h 	raw_a.c 	rcp.c 	readmidi.c 	readmidi.h 	recache.c 	recache.h 	resample.c 	resample.h 	reverb.c 	reverb.h 	sbkconv.c 	sffile.c 	sffile.h 	sfitem.c 	sfitem.h 	sflayer.h 	smfconv.c 	smfconv.h 	sndfont.c 	tables.c 	tables.h 	timidity.c 	timidity.h 	version.c 	wave_a.c 	wrd.h 	wrd_read.c 	wrdt.c
+
+
+EXTRA_timidity_SOURCES =  	alsa_a.c 	audriv.h 	audriv_a.c 	audriv_al.c 	audriv_mme.c 	audriv_none.c 	dl_w32.c 	dl_dld.c 	dl_dlopen.c 	dl_hpux.c 	bsd20_a.c 	esd_a.c 	hpux_a.c 	hpux_d_a.c 	oss_a.c 	mac_a.c 	mac_qt_a.c 	mac_com.h 	mac_dlog.c 	mac_main.c 	mac_main.h 	mac_soundspec.c 	mfnode.c 	mfnode.h 	nas_a.c 	sun_a.c 	vorbis_a.c 	w32_a.c 	w32g_a.c 	dart_a.c 	timpp32g.ini
+
+
+#W32GUI_RES = $(top_builddir)/interface/w32g_res.res
+
+timidity_LDADD =  	$(SYSEXTRAS:.c=.o) 	$(top_builddir)/interface/libinterface.a 	$(top_builddir)/libarc/libarc.a 	$(top_builddir)/libunimod/libunimod.a 	$(top_builddir)/utils/libutils.a 	$(W32GUI_RES)
+
+
+timidity_DEPENDENCIES = $(SYSEXTRAS:.c=.o) 	$(top_builddir)/interface/libinterface.a 	$(top_builddir)/libarc/libarc.a 	$(top_builddir)/libunimod/libunimod.a 	$(top_builddir)/utils/libutils.a 	$(W32GUI_RES)
+
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ../config.h ../interface.h
+CONFIG_CLEAN_FILES = 
+PROGRAMS =  $(bin_PROGRAMS)
+
+
+DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I.. -I..
+CPPFLAGS =  -Ic -I/emx/include;c -I/xfree86/include -I/usr/local/include -DAU_DART -DMCD -D__ST_MT_ERRNO__ -DLAGRANGE_INTERPOLATION $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+LDFLAGS =  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
+LIBS = -lsocket -lm  timidmcd.def -ldl      -los2me
+X_CFLAGS = 
+X_LIBS = 
+X_EXTRA_LIBS = 
+X_PRE_LIBS = 
+timidity_OBJECTS =  aiff_a.o aq.o au_a.o audio_cnv.o common.o controls.o \
+effect.o filter.o instrum.o list_a.o loadtab.o miditrace.o mix.o mod.o \
+mod2midi.o output.o playmidi.o raw_a.o rcp.o readmidi.o recache.o \
+resample.o reverb.o sbkconv.o sffile.o sfitem.o smfconv.o sndfont.o \
+tables.o timidity.o version.o wave_a.o wrd_read.o wrdt.o
+CFLAGS =  -g -Zmt -Zdll
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+DIST_COMMON =  Makefile.am Makefile.in
+
+
+DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+
+TAR = gtar
+GZIP_ENV = --best
+SOURCES = $(timidity_SOURCES) $(EXTRA_timidity_SOURCES)
+OBJECTS = $(timidity_OBJECTS)
+
+all: all-redirect
+.SUFFIXES:
+.SUFFIXES: .S .c .o .s
+$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps timidity/Makefile
+
+Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
+	cd $(top_builddir) \
+	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+
+mostlyclean-binPROGRAMS:
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+
+distclean-binPROGRAMS:
+
+maintainer-clean-binPROGRAMS:
+
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  if test -f $$p; then \
+	    echo "  $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`"; \
+	     $(INSTALL_PROGRAM) $$p $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	  else :; fi; \
+	done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed 's/$(EXEEXT)$$//'|sed '$(transform)'|sed 's/$$/$(EXEEXT)/'`; \
+	done
+
+.c.o:
+	$(COMPILE) -c $<
+
+.s.o:
+	$(COMPILE) -c $<
+
+.S.o:
+	$(COMPILE) -c $<
+
+mostlyclean-compile:
+	-rm -f *.o core *.core
+
+clean-compile:
+
+distclean-compile:
+	-rm -f *.tab.c
+
+maintainer-clean-compile:
+
+timidity$(EXEEXT): $(timidity_OBJECTS) $(timidity_DEPENDENCIES)
+	@rm -f timidity$(EXEEXT)
+	$(LINK) $(timidity_LDFLAGS) $(timidity_OBJECTS) $(timidity_LDADD) $(LIBS)
+
+tags: TAGS
+
+ID: $(HEADERS) $(SOURCES) $(LISP)
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	here=`pwd` && cd $(srcdir) \
+	  && mkid -f$$here/ID $$unique $(LISP)
+
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)'; \
+	unique=`for i in $$list; do echo $$i; done | \
+	  awk '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$unique$(LISP)$$tags" \
+	  || (cd $(srcdir) && etags $(ETAGS_ARGS) $$tags  $$unique $(LISP) -o $$here/TAGS)
+
+mostlyclean-tags:
+
+clean-tags:
+
+distclean-tags:
+	-rm -f TAGS ID
+
+maintainer-clean-tags:
+
+distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
+
+subdir = timidity
+
+distdir: $(DISTFILES)
+	@for file in $(DISTFILES); do \
+	  d=$(srcdir); \
+	  if test -d $$d/$$file; then \
+	    cp -pr $$d/$$file $(distdir)/$$file; \
+	  else \
+	    test -f $(distdir)/$$file \
+	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
+	    || cp -p $$d/$$file $(distdir)/$$file || :; \
+	  fi; \
+	done
+aiff_a.o: aiff_a.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h output.h controls.h instrum.h \
+	playmidi.h readmidi.h
+aq.o: aq.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h output.h aq.h \
+	../utils/timer.h controls.h miditrace.h instrum.h playmidi.h
+au_a.o: au_a.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h output.h controls.h instrum.h \
+	playmidi.h readmidi.h
+audio_cnv.o: audio_cnv.c ../config.h timidity.h ../utils/support.h \
+	audio_cnv.h
+common.o: common.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h output.h controls.h \
+	../libarc/arc.h ../utils/nkflib.h wrd.h ../utils/strtab.h
+controls.o: controls.c ../config.h ../interface.h timidity.h \
+	../utils/support.h controls.h
+effect.o: effect.c ../config.h timidity.h ../utils/support.h instrum.h \
+	playmidi.h output.h reverb.h
+filter.o: filter.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h controls.h instrum.h filter.h
+instrum.o: instrum.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h output.h controls.h resample.h tables.h filter.h
+list_a.o: list_a.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h output.h controls.h
+loadtab.o: loadtab.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h tables.h controls.h
+miditrace.o: miditrace.c ../config.h timidity.h ../utils/support.h \
+	common.h ../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	output.h controls.h miditrace.h wrd.h aq.h
+mix.o: mix.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h instrum.h playmidi.h output.h \
+	controls.h tables.h resample.h mix.h
+mod.o: mod.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h tables.h mod.h output.h controls.h \
+	../libunimod/unimod.h mod2midi.h
+mod2midi.o: mod2midi.c ../config.h timidity.h ../utils/support.h \
+	common.h ../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h tables.h mod.h output.h controls.h \
+	../libunimod/unimod.h mod2midi.h filter.h
+oss_a.o: oss_a.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h output.h controls.h \
+	../utils/timer.h instrum.h playmidi.h miditrace.h
+output.o: output.c ../config.h timidity.h ../utils/support.h output.h \
+	tables.h controls.h audio_cnv.h
+playmidi.o: playmidi.c ../config.h timidity.h ../utils/support.h \
+	common.h ../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h output.h mix.h controls.h miditrace.h recache.h \
+	../libarc/arc.h reverb.h wrd.h aq.h tables.h
+raw_a.o: raw_a.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h output.h controls.h instrum.h \
+	playmidi.h readmidi.h
+rcp.o: rcp.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h controls.h
+readmidi.o: readmidi.c ../config.h timidity.h ../utils/support.h \
+	common.h ../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h output.h controls.h ../utils/strtab.h \
+	../utils/memb.h ../libarc/zip.h ../libarc/arc.h mod.h wrd.h \
+	tables.h
+recache.o: recache.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h instrum.h playmidi.h output.h \
+	controls.h tables.h recache.h
+resample.o: resample.c ../config.h timidity.h ../utils/support.h \
+	common.h ../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	output.h controls.h tables.h resample.h recache.h
+reverb.o: reverb.c ../config.h timidity.h ../utils/support.h controls.h
+sbkconv.o: sbkconv.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h sffile.h sfitem.h sflayer.h
+sffile.o: sffile.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h controls.h sffile.h
+sfitem.o: sfitem.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h sflayer.h sfitem.h sffile.h
+smfconv.o: smfconv.c ../config.h
+sndfont.o: sndfont.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h tables.h instrum.h playmidi.h \
+	controls.h sffile.h sflayer.h sfitem.h output.h filter.h \
+	resample.h
+tables.o: tables.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h tables.h
+timidity.o: timidity.c ../config.h ../interface.h timidity.h \
+	../utils/support.h common.h ../libarc/url.h ../utils/mblock.h \
+	instrum.h playmidi.h readmidi.h output.h controls.h tables.h \
+	miditrace.h reverb.h recache.h ../libarc/arc.h \
+	../utils/strtab.h wrd.h mid.defs aq.h mix.h \
+	../libunimod/unimod.h
+wave_a.o: wave_a.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h output.h controls.h instrum.h \
+	playmidi.h readmidi.h
+wrd_read.o: wrd_read.c ../config.h timidity.h ../utils/support.h \
+	common.h ../libarc/url.h ../utils/mblock.h instrum.h playmidi.h \
+	readmidi.h controls.h wrd.h ../utils/strtab.h
+wrdt.o: wrdt.c ../config.h timidity.h ../utils/support.h common.h \
+	../libarc/url.h ../utils/mblock.h wrd.h ../utils/strtab.h \
+	instrum.h playmidi.h readmidi.h ../libarc/arc.h ../interface.h
+
+info-am:
+info: info-am
+dvi-am:
+dvi: dvi-am
+check-am: all-am
+check: check-am
+installcheck-am:
+installcheck: installcheck-am
+install-exec-am: install-binPROGRAMS
+install-exec: install-exec-am
+
+install-data-am:
+install-data: install-data-am
+
+install-am: all-am
+	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
+install: install-am
+uninstall-am: uninstall-binPROGRAMS
+uninstall: uninstall-am
+all-am: Makefile $(PROGRAMS)
+all-redirect: all-am
+install-strip:
+	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
+installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(bindir)
+
+
+mostlyclean-generic:
+
+clean-generic:
+
+distclean-generic:
+	-rm -f Makefile $(CONFIG_CLEAN_FILES)
+	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
+
+maintainer-clean-generic:
+mostlyclean-am:  mostlyclean-binPROGRAMS mostlyclean-compile \
+		mostlyclean-tags mostlyclean-generic
+
+mostlyclean: mostlyclean-am
+
+clean-am:  clean-binPROGRAMS clean-compile clean-tags clean-generic \
+		mostlyclean-am
+
+clean: clean-am
+
+distclean-am:  distclean-binPROGRAMS distclean-compile distclean-tags \
+		distclean-generic clean-am
+
+distclean: distclean-am
+
+maintainer-clean-am:  maintainer-clean-binPROGRAMS \
+		maintainer-clean-compile maintainer-clean-tags \
+		maintainer-clean-generic distclean-am
+	@echo "This command is intended for maintainers to use;"
+	@echo "it deletes files that may require special tools to rebuild."
+
+maintainer-clean: maintainer-clean-am
+
+.PHONY: mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
+maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
+mostlyclean-compile distclean-compile clean-compile \
+maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
+check-am installcheck-am installcheck install-exec-am install-exec \
+install-data-am install-data install-am install uninstall-am uninstall \
+all-redirect all-am all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
+
+
+include $(top_builddir)/common.makefile
+
+version.o: version.c ../configure
+	$(CC) $(CFLAGS) -DTIMID_VERSION=\"$(VERSION)\" -c $(srcdir)/version.c
+
+$(top_builddir)/interface/libinterface.a $(W32GUI_RES):
+	cd $(top_builddir)/interface; $(MAKE)
+
+$(top_builddir)/libarc/libarc.a:
+	cd $(top_builddir)/libarc; $(MAKE)
+
+$(top_builddir)/libunimod/libunimod.a:
+	cd $(top_builddir)/libunimod; $(MAKE)
+
+$(top_builddir)/utils/libutils.a:
+	cd $(top_builddir)/utils; $(MAKE)
+
+objs: $(timidity_OBJECTS) $(timidity_DEPENDENCIES)
+	@:
+
+# Tell versions [3.59,3.63) of GNU make to not export all variables.
+# Otherwise a system limit (for SysV at least) may be exceeded.
+.NOEXPORT:
