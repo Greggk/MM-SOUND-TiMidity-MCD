@@ -21,4 +21,4 @@ AUTHORS
 
 LINKS
 ===============
-* http://doconnor.homeip.net/timidity.html
+* http://web.archive.org/web/20161017202552/http://doconnor.homeip.net/timidity.html
