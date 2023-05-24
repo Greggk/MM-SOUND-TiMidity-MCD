@@ -651,4 +651,3 @@ int usleep(unsigned int useconds); /* shut gcc warning up */
 #include "support.h"
 
 #endif /* ___TIMIDITY_H_ */
-

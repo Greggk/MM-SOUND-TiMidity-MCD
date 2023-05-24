@@ -238,4 +238,3 @@ enum url_news_conn_type
 
 #define URL_MAX_READLIMIT ((~(unsigned long)0) >> 1)
 #endif /* ___URL_H_ */
-

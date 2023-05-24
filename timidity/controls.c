@@ -211,4 +211,3 @@ ControlMode *ctl_list[]={
 };
 
 ControlMode *ctl=DEFAULT_CONTROL_MODE;
-

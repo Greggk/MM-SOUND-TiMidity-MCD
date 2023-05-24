@@ -2,4 +2,3 @@
  STACKSIZE 65536
  DATA NONSHARED
  EXPORTS   mciDriverEntry
-

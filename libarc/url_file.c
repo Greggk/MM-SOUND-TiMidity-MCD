@@ -449,4 +449,3 @@ static long url_file_tell(URL url)
 
     return urlp->mapptr ? urlp->pos : ftell(urlp->fp);
 }
-

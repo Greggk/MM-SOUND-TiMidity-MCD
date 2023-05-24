@@ -4,4 +4,3 @@
 
 break read_midi_file
 set args -L /timidity -c /timidity/timidity.cfg /timidity/dagoski.s3m
-

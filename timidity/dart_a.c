@@ -279,4 +279,3 @@ static int acntl(int request, void *arg)
     }
     return -1;
 }
-

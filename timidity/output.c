@@ -352,4 +352,3 @@ const char *output_encoding_string(int enc)
 	    return "unsigned 8bit";
     /*NOTREACHED*/
 }
-

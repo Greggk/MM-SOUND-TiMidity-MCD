@@ -94,4 +94,4 @@ static long url_mmio_seek(URL url, long offset, int whence)
     ret=url_mmio_tell(url);
     mmioSeek(((URL_mmio *)url)->fp,offset,whence);
     return ret;
-}
+}

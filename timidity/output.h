@@ -175,5 +175,3 @@ extern const char *output_encoding_string(int enc);
 #endif
 
 #endif /* ___OUTPUT_H_ */
-
-

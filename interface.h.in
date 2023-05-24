@@ -45,4 +45,3 @@
 
 /* Define if you have OS/2 MCD interface. */
 #undef IA_MCD
-
