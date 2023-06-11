@@ -20,13 +20,13 @@
 # Note that the definition of beginning with just one `#' implies
 # default value from configure.
 
-SHELL=/bin/sh
+SHELL=X:/usr/bin/sh.exe
 
 
 ## Package compilations
 ## Please modify and uncomment if you want to change.
 #CC= gcc
-#CFLAGS =  -g -Zmt -Zdll
+#CFLAGS =  -O2
 # For pentium gcc
 ##CFLAGS = -O3 -mpentium -march=pentium -fomit-frame-pointer \
 ##         -funroll-all-loops -malign-double -ffast-math
@@ -34,12 +34,12 @@ SHELL=/bin/sh
 ##CFLAGS = -O6 -mpentium -fomit-frame-pointer -funroll-all-loops -ffast-math \
 ##         -fno-peep-spills \
 ##         -fno-exceptions -malign-jumps=0 -malign-loops=0 -malign-functions=0
-#CPPFLAGS =  -Ic -I/emx/include;c -I/xfree86/include -I/usr/local/include -DAU_DART -DMCD -D__ST_MT_ERRNO__ -DLAGRANGE_INTERPOLATION $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+#CPPFLAGS =  -Iu -I/emx/include -I/usr/local/include -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
 
 #DEFS = -DHAVE_CONFIG_H
-#LDFLAGS =  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
-#LIBS = -lsocket -lm  timidmcd.def -ldl      -los2me
-#SHLD = gcc -shared  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
+#LDFLAGS =  -Lu -L/emx/lib -L/usr/local/lib
+#LIBS = -lsocket -lm       -los2me
+#SHLD = gcc -shared  -Lu -L/emx/lib -L/usr/local/lib
 #SHCFLAGS =  -fPIC
 #
 
@@ -49,11 +49,11 @@ SHELL=/bin/sh
 #exec_prefix = ${prefix}
 #bindir = ${exec_prefix}/bin
 #libdir = ${exec_prefix}/lib
-#datadir = c:
-#mandir = ${prefix}/man
+#datadir = ${prefix}/share
+#mandir = ${prefix}/share/man
 pkglibdir = $(libdir)/timidity
 pkgdatadir = $(datadir)/timidity
-#INSTALL = c:/utils/ginstall -c
+#INSTALL = /@unixroot/usr/bin/install.exe -c
 
 # Where to install the patches, config files.
 PKGDATADIR = $(pkgdatadir)

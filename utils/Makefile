@@ -29,7 +29,7 @@
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-SHELL = /bin/sh
+SHELL = X:/usr/bin/sh.exe
 
 srcdir = .
 top_srcdir = ..
@@ -40,13 +40,13 @@ exec_prefix = ${prefix}
 bindir = ${exec_prefix}/bin
 sbindir = ${exec_prefix}/sbin
 libexecdir = ${exec_prefix}/libexec
-datadir = c:
+datadir = ${prefix}/share
 sysconfdir = ${prefix}/etc
 sharedstatedir = ${prefix}/com
 localstatedir = ${prefix}/var
 libdir = ${exec_prefix}/lib
-infodir = ${prefix}/info
-mandir = ${prefix}/man
+infodir = ${prefix}/share/info
+mandir = ${prefix}/share/man
 includedir = ${prefix}/include
 oldincludedir = /usr/include
 
@@ -58,12 +58,12 @@ pkgincludedir = $(includedir)/TiMidity++
 
 top_builddir = ..
 
-ACLOCAL = aclocal
+ACLOCAL = aclocal-1.16
 AUTOCONF = autoconf
-AUTOMAKE = C:/timid2104/missing automake
+AUTOMAKE = automake-1.16
 AUTOHEADER = autoheader
 
-INSTALL = c:/utils/ginstall -c
+INSTALL = /@unixroot/usr/bin/install.exe -c
 INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_SCRIPT = ${INSTALL}
@@ -75,11 +75,11 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_alias = @build_alias@
+build_alias = 
 build_triplet = i386-pc-os2-emx
-host_alias = @host_alias@
+host_alias = 
 host_triplet = i386-pc-os2-emx
-target_alias = @target_alias@
+target_alias = 
 target_triplet = i386-pc-os2-emx
 ALSA_CFLAGS = 
 ALSA_LIBS = 
@@ -93,20 +93,20 @@ EXTRALIBS =  -los2me
 GTK_CFLAGS = 
 GTK_CONFIG = 
 GTK_LIBS = 
-INTERFACE_SRCS =  mcd_c.c
-LN_S = ln
-MAKEINFO = C:/timid2104/missing makeinfo
+INTERFACE_SRCS = 
+LN_S = ln -s
+MAKEINFO = makeinfo
 NETSRCS = 
 PACKAGE = TiMidity++
-RANLIB = :
+RANLIB = ranlib
 SHCFLAGS =  -fPIC
-SHELL = /bin/sh
-SHLD = gcc -shared  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
+SHELL = X:/usr/bin/sh.exe
+SHLD = gcc -shared  -Lu -L/emx/lib -L/usr/local/lib
 SYSEXTRAS =  dart_a.c
 VERSION = 2.10.4
 WISH = wish
 dynamic_targets = 
-lispdir = 
+lispdir = ${datadir}/emacs/site-lisp
 program_transform_name = s,x,x,
 so = so
 tcltk_dep = 
@@ -139,10 +139,10 @@ CONFIG_CLEAN_FILES =
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I.. -I..
-CPPFLAGS =  -Ic -I/emx/include;c -I/xfree86/include -I/usr/local/include -DAU_DART -DMCD -D__ST_MT_ERRNO__ -DLAGRANGE_INTERPOLATION $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
-LDFLAGS =  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
-LIBS = -lsocket -lm  timidmcd.def -ldl      -los2me
+DEFS = -DHAVE_CONFIG_H -Zmtd -D__ST_MT_ERRNO__ -I. -I$(srcdir) -I.. -I..
+CPPFLAGS =  -Iu -I/emx/include -I/usr/local/include -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+LDFLAGS =  -Lu -L/emx/lib -L/usr/local/lib
+LIBS = -lsocket -lm       -los2me
 X_CFLAGS = 
 X_LIBS = 
 X_EXTRA_LIBS = 
@@ -150,7 +150,7 @@ X_PRE_LIBS =
 libutils_a_OBJECTS =  bitset.o mblock.o memb.o nkflib.o strtab.o \
 support.o timer.o
 AR = ar
-CFLAGS =  -g -Zmt -Zdll
+CFLAGS =  -O2
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

@@ -28,8 +28,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+ifndef MCD			# if not defined on command line
+ifdef %MCD			# if defined in environment
+MCD = $(%MCD)
+endif
+endif
 
-SHELL = /bin/sh
+SHELL = X:/usr/bin/sh.exe
 
 srcdir = .
 top_srcdir = ..
@@ -40,15 +45,14 @@ exec_prefix = ${prefix}
 bindir = ${exec_prefix}/bin
 sbindir = ${exec_prefix}/sbin
 libexecdir = ${exec_prefix}/libexec
-datadir = c:
+datadir = ${prefix}/share
 sysconfdir = ${prefix}/etc
 sharedstatedir = ${prefix}/com
 localstatedir = ${prefix}/var
 libdir = ${exec_prefix}/lib
-infodir = ${prefix}/info
-mandir = ${prefix}/man
+infodir = ${prefix}/share/info
+mandir = ${prefix}/share/man
 includedir = ${prefix}/include
-EXEEXT=.exe
 oldincludedir = /usr/include
 
 DESTDIR =
@@ -59,12 +63,12 @@ pkgincludedir = $(includedir)/TiMidity++
 
 top_builddir = ..
 
-ACLOCAL = aclocal
+ACLOCAL = aclocal-1.16
 AUTOCONF = autoconf
-AUTOMAKE = C:/timid2104/missing automake
+AUTOMAKE = automake-1.16
 AUTOHEADER = autoheader
 
-INSTALL = c:/utils/ginstall -c
+INSTALL = /@unixroot/usr/bin/install.exe -c
 INSTALL_PROGRAM = ${INSTALL} $(AM_INSTALL_PROGRAM_FLAGS)
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_SCRIPT = ${INSTALL}
@@ -76,11 +80,11 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_alias = @build_alias@
+build_alias = 
 build_triplet = i386-pc-os2-emx
-host_alias = @host_alias@
+host_alias = 
 host_triplet = i386-pc-os2-emx
-target_alias = @target_alias@
+target_alias = 
 target_triplet = i386-pc-os2-emx
 ALSA_CFLAGS = 
 ALSA_LIBS = 
@@ -94,32 +98,32 @@ EXTRALIBS =  -los2me
 GTK_CFLAGS = 
 GTK_CONFIG = 
 GTK_LIBS = 
-INTERFACE_SRCS =  mcd_c.c
-LN_S = ln
-MAKEINFO = C:/timid2104/missing makeinfo
+INTERFACE_SRCS = 
+LN_S = ln -s
+MAKEINFO = makeinfo
 NETSRCS = 
 PACKAGE = TiMidity++
-RANLIB = :
+RANLIB = ranlib
 SHCFLAGS =  -fPIC
-SHELL = /bin/sh
-SHLD = gcc -shared  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
+SHELL = X:/usr/bin/sh.exe
+SHLD = gcc -shared  -Lu -L/emx/lib -L/usr/local/lib
 SYSEXTRAS =  dart_a.c
 VERSION = 2.10.4
 WISH = wish
 dynamic_targets = 
-lispdir = 
+lispdir = ${datadir}/emacs/site-lisp
 program_transform_name = s,x,x,
 so = so
 tcltk_dep = 
 timidity_LDFLAGS = 
 
-EXEEXT=.dll
-
-
 INCLUDES =  	-I$(top_srcdir) 	-I$(top_srcdir)/libarc 	-I$(top_srcdir)/libunimod 	-I$(top_srcdir)/interface 	-I$(top_srcdir)/utils 	$(EXTRAINCS)
 
-
-bin_PROGRAMS = timidity$(EXEEXT)
+ifndef MCD
+bin_PROGRAMS = timidity.exe
+else 
+bin_PROGRAMS = timidity.dll
+endif
 
 timidity_SOURCES =  	aenc.h 	aiff_a.c 	aq.c 	aq.h 	au_a.c 	audio_cnv.c 	audio_cnv.h 	common.c 	common.h 	controls.c 	controls.h 	dlutils.h 	effect.c 	filter.c 	filter.h 	instrum.c 	instrum.h 	list_a.c 	loadtab.c 	mid-j.defs 	mid.defs 	miditrace.c 	miditrace.h 	mix.c 	mix.h 	mod.c 	mod.h 	mod2midi.c 	mod2midi.h 	output.c 	output.h 	playmidi.c 	playmidi.h 	raw_a.c 	rcp.c 	readmidi.c 	readmidi.h 	recache.c 	recache.h 	resample.c 	resample.h 	reverb.c 	reverb.h 	sbkconv.c 	sffile.c 	sffile.h 	sfitem.c 	sfitem.h 	sflayer.h 	smfconv.c 	smfconv.h 	sndfont.c 	tables.c 	tables.h 	timidity.c 	timidity.h 	version.c 	wave_a.c 	wrd.h 	wrd_read.c 	wrdt.c
 
@@ -139,11 +143,14 @@ CONFIG_HEADER = ../config.h ../interface.h
 CONFIG_CLEAN_FILES = 
 PROGRAMS =  $(bin_PROGRAMS)
 
-
-DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I.. -I..
-CPPFLAGS =  -Ic -I/emx/include;c -I/xfree86/include -I/usr/local/include -DAU_DART -DMCD -D__ST_MT_ERRNO__ -DLAGRANGE_INTERPOLATION $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
-LDFLAGS =  -Lc -L/emx/lib;c -L/xfree86/lib -L/usr/local/lib
-LIBS = -lsocket -lm  timidmcd.def -ldl      -los2me
+ifdef MCD
+DEFS = -DHAVE_CONFIG_H -DMCD -DIA_MCD -D__EMX__ -D__ST_MT_ERRNO__ -I. -I$(srcdir) -I.. -I..
+else
+DEFS = -DHAVE_CONFIG_H -D__EMX__ -D__ST_MT_ERRNO__ -I. -I$(srcdir) -I.. -I..
+endif
+CPPFLAGS =  -Iu -I/emx/include -I/usr/local/include -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+LDFLAGS =  -Lu -L/emx/lib -L/usr/local/lib
+LIBS = -lsocket -lm       -los2me  pmprintf.a
 X_CFLAGS = 
 X_LIBS = 
 X_EXTRA_LIBS = 
@@ -153,10 +160,16 @@ effect.o filter.o instrum.o list_a.o loadtab.o miditrace.o mix.o mod.o \
 mod2midi.o output.o playmidi.o raw_a.o rcp.o readmidi.o recache.o \
 resample.o reverb.o sbkconv.o sffile.o sfitem.o smfconv.o sndfont.o \
 tables.o timidity.o version.o wave_a.o wrd_read.o wrdt.o
-CFLAGS =  -g -Zmt -Zdll
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+timidMCD_OBJECTS = mcd_c.o muldiv.o
+ifdef MCD
+CFLAGS =  -g -Zmtd
+else
+CFLAGS =   -O2 -Zmtd
+endif
+COMPILE = $(CC) $(CFLAGS) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) 
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -Zmtd -o $@
+LINKMCD = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -Zmtd -Zdll -Zmap -o timidity.dll timidmcd.def
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -165,6 +178,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 TAR = gtar
 GZIP_ENV = --best
 SOURCES = $(timidity_SOURCES) $(EXTRA_timidity_SOURCES)
+
 OBJECTS = $(timidity_OBJECTS)
 
 all: all-redirect
@@ -222,10 +236,18 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-timidity$(EXEEXT): $(timidity_OBJECTS) $(timidity_DEPENDENCIES)
-	@rm -f timidity$(EXEEXT)
+timidityprep:
+	@rm -f *.o
+	
+timidity.exe: $(timidity_OBJECTS) $(timidity_DEPENDENCIES)
+	@rm -f timidity.exe
 	$(LINK) $(timidity_LDFLAGS) $(timidity_OBJECTS) $(timidity_LDADD) $(LIBS)
 
+timidity.dll: $(timidity_OBJECTS) $(timidMCD_OBJECTS) $(timidity_DEPENDENCIES)
+	@rm -f timidity.dll
+	$(LINKMCD) $(timidity_LDFLAGS) $(timidity_OBJECTS) $(timidMCD_OBJECTS) $(timidity_LDADD) $(LIBS)
+	mapsym timidity.map
+	
 tags: TAGS
 
 ID: $(HEADERS) $(SOURCES) $(LISP)
@@ -387,7 +409,7 @@ install-am: all-am
 install: install-am
 uninstall-am: uninstall-binPROGRAMS
 uninstall: uninstall-am
-all-am: Makefile $(PROGRAMS)
+all-am: timidityprep Makefile $(PROGRAMS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install

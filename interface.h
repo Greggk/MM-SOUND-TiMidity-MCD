@@ -1,4 +1,4 @@
-/* interface.h.  Generated automatically by configure.  */
+/* interface.h.  Generated from interface.h.in by configure.  */
 /* Define if you have EMACS interface. */
 /* #undef IA_EMACS */
 
@@ -45,4 +45,4 @@
 /* #undef IA_ALSASEQ */
 
 /* Define if you have OS/2 MCD interface. */
-#define IA_MCD 1
+/* #undef IA_MCD */

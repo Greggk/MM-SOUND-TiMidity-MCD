@@ -125,7 +125,7 @@ CONFIG_CLEAN_FILES =
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I.. -I..
+DEFS = @DEFS@ -Zmtd -D__ST_MT_ERRNO__ -I. -I$(srcdir) -I.. -I..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
