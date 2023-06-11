@@ -48,6 +48,12 @@
 #include "nkflib.h"
 #include "wrd.h"
 #include "strtab.h"
+#include "unimod.h"
+
+#if 1
+#define  _PMPRINTF_
+#include "PMPRINTF.H"
+#endif
 
 /* RAND_MAX must defined in stdlib.h
  * Why RAND_MAX is not defined at SunOS?
@@ -123,9 +129,15 @@ struct timidity_file *try_to_open(char *name, int decompress)
     int len;
 
     if((url = url_arc_open(name)) == NULL)
-      if((url = url_open(name)) == NULL)
+      if((url = url_open(name)) == NULL) {
+#ifdef _PMPRINTF_
+	Pmpf(("url %s ", url));
+#endif
 	return NULL;
-
+      }
+#ifdef _PMPRINTF_
+    DebugHereIAm();
+#endif
     tf = (struct timidity_file *)safe_malloc(sizeof(struct timidity_file));
     tf->url = url;
     tf->tmpname = NULL;
@@ -301,10 +313,15 @@ struct timidity_file *open_file(char *name, int decompress, int noise_mode)
   /* First try the given name */
   strncpy(current_filename, url_unexpand_home_dir(name), 1023);
   current_filename[1023]='\0';
-
+#ifdef _PMPRINTF_
+  Pmpf(("current_filename %s ", current_filename));
+#endif
   if(noise_mode)
     ctl->cmsg(CMSG_INFO, VERB_DEBUG, "Trying to open %s", current_filename);
   if ((tf=try_to_open(current_filename, decompress)))
+#ifdef _PMPRINTF_
+    DebugHereIAm();
+#endif
     return tf;
 
 #ifdef __MACOS__

@@ -26,6 +26,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h>
+#if 0
+#define INCL_DOSRAS        //INCL_DOSMISC
+#define INCL_DOSEXCEPTIONS
+#define INCL_DOSPROCESS			// For exceptq
+#define INCL_DOSMODULEMGR               // For exceptq
+#endif
 #define INCL_DOSSEMAPHORES
 #define INCL_DOSPROCESS
 #define INCL_DOSMISC
@@ -46,7 +55,23 @@
 #include "recache.h"
 #include "mcd_c.h"
 
-int read_config_file(char *name);
+#if 1
+#define  _PMPRINTF_
+#include "PMPRINTF.H"
+#endif
+#if 0
+// 2023-03-02 SHL For exceptq and DosDumpProcess and DosRaiseException
+
+// 2023-02-02 SHL Enable exceptq support
+#ifdef EXCEPTQ_H_INCLUDED
+#error exceptq.h already included
+#endif
+
+// Assume exceptq.dll already loaded by libc
+#define INCL_LOADEXCEPTQ
+#include "exceptq.h"
+#endif
+int read_config_file(char *name, int self);
 extern char def_instr_name[256];
 
 static void ctl_refresh(void) {}
@@ -151,6 +176,9 @@ ULONG Waitfor(tmsginfo *msginfo) {
    if (msginfo->finishSEM) {
       DosWaitEventSem(msginfo->finishSEM,SEM_INDEFINITE_WAIT);
       DosCloseEventSem(msginfo->finishSEM);
+#ifdef _PMPRINTF_
+      DebugHereIAm();
+#endif
       if (debugging) fprintf(debugfile,"The waiting is over\n");
       if (msginfo->param2copy!=NULL) free(msginfo->param2copy); /*Freed by other thread if not wait*/
       result=msginfo->Returncode;
@@ -299,10 +327,19 @@ void *OpenTimidity(tmsginfo *msginfo) {
       end=(char *)index(path,';'); /*Why do I need to cast here?*/
       if (end) *end='\0';
       add_to_pathlist(path);
-   } 
+#ifdef _PMPRINTF_
+      Pmpf(("TIMIDITYDIR %s", path));
+#endif
+   }
    /*from main*/
    timidity_start_initialize();
+#ifdef _PMPRINTF_
+   DebugHereIAm();
+#endif
    timidity_pre_load_configuration();
+#ifdef _PMPRINTF_
+   DebugHereIAm();
+#endif
    timidity_post_load_configuration();
    timidity_init_player();
    /*from timidty_play_main*/
@@ -445,11 +482,28 @@ ULONG mciDriverEntry(tinstance *pInstance, USHORT usMessage, ULONG ulParam1,
    ULONG SeekTo;
    tCuePoint NewCuePoint;
    PSZ debugresult;
-
+#if 0
+   EXCEPTIONREGISTRATIONRECORD reg = {0};
+   EXCEPTIONREPORTRECORD err = {0};
+#endif   
    if (!debugfile) {
 
       if (DosScanEnv("TIMIDITYDEBUG",&debugresult)==NO_ERROR) {
-         debugfile=fopen(debugresult,"w");
+#ifdef _PMPRINTF_
+         Pmpf(("pathname %s",debugresult));
+#endif
+#if 0
+         InstallExceptq(&reg, "DI", "exceptq loaded by Timidity MCD mciDriverEntry");
+#endif
+         debugfile=open(debugresult, O_WRONLY | O_CREAT | O_TRUNC,
+                        S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP );
+         //fopen(debugresult,"w");
+#if 0
+         UninstallExceptq(&reg);
+#endif
+#ifdef _PMPRINTF_
+         DebugHereIAm();
+#endif
          setvbuf(debugfile,NULL,_IOLBF,0);
          debugging=1;
       } else {
@@ -457,9 +511,17 @@ ULONG mciDriverEntry(tinstance *pInstance, USHORT usMessage, ULONG ulParam1,
          debugging=0;
       }
    }
+#ifdef _PMPRINTF_
+   Pmpf(("Message Sent:%d\n ", usMessage));
+#endif
    if (debugging) fprintf(debugfile,"Message Sent:%d\n",usMessage);
+   close(debugfile);
+   return MCIERR_DEVICE_LOCKED;
    switch (usMessage) {
    case MCI_OPEN:
+#ifdef _PMPRINTF_
+      DebugHereIAm();
+#endif
       if (debugging) fprintf(debugfile,"Open File\n");
       if (instancerunning==1) DosSleep(200); /*It to finish shutting down*/
       if (instancerunning==1) return MCIERR_DEVICE_LOCKED;

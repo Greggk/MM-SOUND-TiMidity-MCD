@@ -30,7 +30,7 @@
    then specify the library directory in the configuration file. */
 /* #define CONFIG_FILE "/etc/timidity.cfg" */
 #ifdef MCD
-#define CONFIG_FILE "timidity.cfg"
+#define CONFIG_FILE "E:/Programs/Timidity/timidity.cfg"
 #endif
 #ifndef CONFIG_FILE
 
@@ -622,7 +622,7 @@ int usleep(unsigned int useconds); /* shut gcc warning up */
 #endif /* __BORLANDC__ */
 
 #ifdef __EMX__
-#define strcasecmp(a,b)		_stricmp((a),(b))
+#define strcasecmp(a,b)		_stricmp(a,b)
 #endif
 
 #ifdef _MSC_VER

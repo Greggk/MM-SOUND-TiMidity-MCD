@@ -33,6 +33,12 @@
 #include "timidity.h"
 #include "url.h"
 
+#if 1
+#include "..\libunimod\unimod.h"
+#define  _PMPRINTF_
+#include "PMPRINTF.H"
+#endif
+
 #ifdef HAVE_SAFE_MALLOC
 extern void *safe_malloc(size_t count);
 extern void *safe_realloc(void *old_ptr, size_t new_size);
@@ -86,7 +92,10 @@ int url_check_type(char *s)
 URL url_open(char *s)
 {
     struct URL_module *m;
-
+    URL url;
+#ifdef _PMPRINTF_
+    Pmpf(("name %s", s));
+#endif
     for(m = url_mod_list; m; m = m->chain)
     {
 #ifdef DEBUG
@@ -94,6 +103,9 @@ URL url_open(char *s)
 #endif /* DEBUG */
 	if(m->type != URL_none_t && m->name_check && m->name_check(s))
 	{
+#ifdef _PMPRINTF_
+            Pmpf(("open url (type=%d, name=%s, url_init %d)", m->type, s, m->url_init));
+#endif
 #ifdef DEBUG
 	    printf("open url (type=%d, name=%s)\n", m->type, s);
 #endif /* DEBUG */
@@ -106,7 +118,14 @@ URL url_open(char *s)
 
 	    url_errno = URLERR_NONE;
 	    errno = 0;
-	    return m->url_open(s);
+#ifdef _PMPRINTF_
+            DebugHereIAm();
+#endif
+            url = m->url_open(s);
+#ifdef _PMPRINTF_
+            DebugHereIAm();
+#endif
+            return  url;
 	}
     }
 

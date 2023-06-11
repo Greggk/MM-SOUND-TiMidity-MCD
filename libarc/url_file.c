@@ -68,6 +68,12 @@
 #define O_BINARY 0
 #endif
 
+#if 1
+#include "..\libunimod\unimod.h"
+#define  _PMPRINTF_
+#include "PMPRINTF.H"
+#endif
+
 typedef struct _URL_file
 {
     char common[sizeof(struct _URL)];
@@ -206,7 +212,9 @@ URL url_file_open(char *fname)
 #ifdef __W32__
     HANDLE hFile, hMap;
 #endif /* __W32__ */
-
+#ifdef _PMPRINTF_
+    Pmpf(("url_file_open(%s)", fname));
+#endif
 #ifdef DEBUG
     printf("url_file_open(%s)\n", fname);
 #endif /* DEBUG */
@@ -227,7 +235,10 @@ URL url_file_open(char *fname)
 	return NULL;
     }
     fname = url_expand_home_dir(fname);
-
+#ifdef _PMPRINTF_
+    Pmpf(("url_file_open(%s)", fname));
+#endif
+    fname = "E:/Programs/Timidity/Timidity.cfg";
     fp = NULL;
     mapsize = 0;
     errno = 0;
@@ -237,7 +248,9 @@ URL url_file_open(char *fname)
 	url_errno = errno;
 	return NULL;
     }
-
+#ifdef _PMPRINTF_
+    Pmpf(("mmap - success. size=%d ", mapptr ? mapsize : -1));
+#endif
 #ifdef DEBUG
     if(mapptr != NULL)
 	printf("mmap - success. size=%d\n", mapsize);
@@ -262,7 +275,13 @@ URL url_file_open(char *fname)
 		fp = fopen(fname, "rb");
 	}
 #else
-	fp = fopen(fname, "rb");
+#ifdef _PMPRINTF_
+        DebugHereIAm();
+#endif
+        fp = fopen(fname, "rb");
+#ifdef _PMPRINTF_
+        DebugHereIAm();
+#endif
 #endif
 	if(fp == NULL)
 	{

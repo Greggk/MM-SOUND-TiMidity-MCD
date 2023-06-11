@@ -94,6 +94,11 @@ extern char *optarg;
 #define MAIN_INTERFACE static
 #endif /* main */
 
+#if 1
+#define  _PMPRINTF_
+#include "PMPRINTF.H"
+#endif
+
 MAIN_INTERFACE void timidity_start_initialize(void);
 MAIN_INTERFACE int timidity_pre_load_configuration(void);
 MAIN_INTERFACE int timidity_post_load_configuration(void);
@@ -1171,11 +1176,19 @@ MAIN_INTERFACE int read_config_file(char *name, int self)
 	tf = open_with_mem(name, (int32)strlen(name), OF_VERBOSE);
 	name = "(configuration)";
     }
-    else
-	tf = open_file(name, 1, OF_VERBOSE);
-    if(tf == NULL)
-	return 1;
-
+    else {
+#ifdef _PMPRINTF_
+        Pmpf(("name %s", name));
+#endif
+        tf = open_file(name, 1, OF_VERBOSE);
+#ifdef _PMPRINTF_
+        DebugHereIAm();
+#endif
+    }
+    if(tf == NULL) {
+        return 1;
+    }
+    
     errno = 0;
     while(tf_gets(tmp, sizeof(tmp), tf))
     {
@@ -1968,6 +1981,7 @@ MAIN_INTERFACE int read_config_file(char *name, int self)
 	    }
 	}
     }
+    DosBeep(500,500);
     if(errno)
     {
 	ctl->cmsg(CMSG_ERROR, VERB_NORMAL,
@@ -2936,19 +2950,28 @@ MAIN_INTERFACE int timidity_pre_load_configuration(void)
 
 #else
     /* UNIX */
+#ifdef _PMPRINTF_
+    Pmpf(("Config %s ", CONFIG_FILE));
+#endif
     if(!read_config_file(CONFIG_FILE, 0))
 	got_a_configuration = 1;
 #endif
-
+#ifdef _PMPRINTF_
+    DebugHereIAm();
+#endif
     /* Try read configuration file which is in the
      * $HOME (or %HOME% for DOS) directory.
      * Please setup each user preference in $HOME/.timidity.cfg
      * (or %HOME%/timidity.cfg for DOS)
      */
 
-    if(read_user_config_file())
+    if(read_user_config_file()) {
 	ctl->cmsg(CMSG_INFO, VERB_NOISY,
-		  "Warning: Can't read ~/.timidity.cfg correctly");
+                  "Warning: Can't read ~/.timidity.cfg correctly");
+#ifdef _PMPRINTF_
+        Pmpf(("Warning: Can't read ~/.timidity.cfg correctly "));
+#endif
+    }
     return 0;
 }
 
