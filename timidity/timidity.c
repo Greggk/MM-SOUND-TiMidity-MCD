@@ -94,7 +94,7 @@ extern char *optarg;
 #define MAIN_INTERFACE static
 #endif /* main */
 
-#if 1
+#if 0
 #define  _PMPRINTF_
 #include "PMPRINTF.H"
 #endif
@@ -1166,7 +1166,10 @@ MAIN_INTERFACE int read_config_file(char *name, int self)
 
     if(rcf_count > 50)
     {
-	ctl->cmsg(CMSG_ERROR, VERB_NORMAL,
+#ifdef _PMPRINTF_
+        Pmpf(("rcf_count %d", rcf_count));
+#endif
+        ctl->cmsg(CMSG_ERROR, VERB_NORMAL,
 		  "Probable source loop in configuration files");
 	return 2;
     }
@@ -1981,7 +1984,6 @@ MAIN_INTERFACE int read_config_file(char *name, int self)
 	    }
 	}
     }
-    DosBeep(500,500);
     if(errno)
     {
 	ctl->cmsg(CMSG_ERROR, VERB_NORMAL,
@@ -2957,7 +2959,7 @@ MAIN_INTERFACE int timidity_pre_load_configuration(void)
 	got_a_configuration = 1;
 #endif
 #ifdef _PMPRINTF_
-    DebugHereIAm();
+    Pmpf(("got a config %d ", got_a_configuration));
 #endif
     /* Try read configuration file which is in the
      * $HOME (or %HOME% for DOS) directory.
@@ -3254,7 +3256,9 @@ int main(int argc, char **argv)
     int c, err;
     int nfiles;
     char **files;
-
+#ifdef __EMX__
+    char *mmbase;
+#endif
 
 #if defined(DANGEROUS_RENICE) && !defined(__W32__) && !defined(main)
     /*
@@ -3326,8 +3330,19 @@ int main(int argc, char **argv)
 	interesting_message();
 	return 0;
     }
+#ifdef __EMX__
+    if (mmbase = getenv("TIMIDITYDIR")) {
+      char path[256];
+      char *end;
 
+      strcpy(path,mmbase);
+      end=(char *)index(path,';'); /*Why do I need to cast here?*/
+      if (end) *end='\0';
+      add_to_pathlist(path);
+    }
+#endif
     timidity_start_initialize();
+
 #ifdef IA_W32GUI
     w32g_initialize();
 

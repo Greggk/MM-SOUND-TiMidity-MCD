@@ -29,8 +29,8 @@
 /* You could specify a complete path, e.g. "/etc/timidity.cfg", and
    then specify the library directory in the configuration file. */
 /* #define CONFIG_FILE "/etc/timidity.cfg" */
-#ifdef MCD
-#define CONFIG_FILE "E:/Programs/Timidity/timidity.cfg"
+#ifdef __EMX__
+#define CONFIG_FILE "timidity.cfg"
 #endif
 #ifndef CONFIG_FILE
 
