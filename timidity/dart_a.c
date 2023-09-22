@@ -36,7 +36,7 @@
 
 #include <os2.h>
 #include <os2me.h>
-
+#include <string.h>
 #include "timidity.h"
 #include "common.h"
 #include "output.h"
