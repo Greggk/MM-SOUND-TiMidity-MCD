@@ -21,15 +21,15 @@
     mcd_c.c: Control driver to allow Timidity to act as an OS/2 Media Control Device DLL
 */
 /*#define INCL_MCIOS2*/
-#define INCL_OS2MM
 
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <sys/types.h> 
 #include <sys/stat.h> 
 #include <fcntl.h>
-#if 0
+#if 1
 #define INCL_DOSRAS        //INCL_DOSMISC
 #define INCL_DOSEXCEPTIONS
 #define INCL_DOSPROCESS			// For exceptq
@@ -43,6 +43,7 @@
 #define INCL_OS2MM
 #include <os2.h>
 #include <os2me.h>
+#include <mmio.h>
 #include "config.h"
 #include "timidity.h"
 #include "common.h"
@@ -54,8 +55,10 @@
 #include "controls.h"
 #include "recache.h"
 #include "mcd_c.h"
+#include "aq.h"
+#include "playmidi.h"
 
-#if 1
+#if 0
 #define  _PMPRINTF_
 #include "PMPRINTF.H"
 #endif
@@ -66,10 +69,21 @@
 #ifdef EXCEPTQ_H_INCLUDED
 #error exceptq.h already included
 #endif
-
+EXCEPTIONREGISTRATIONRECORD reg = {0};
 // Assume exceptq.dll already loaded by libc
 #define INCL_LOADEXCEPTQ
 #include "exceptq.h"
+#endif
+#if 1
+#define MAIN_INTERFACE
+MAIN_INTERFACE void timidity_start_initialize(void);
+MAIN_INTERFACE int timidity_pre_load_configuration(void);
+MAIN_INTERFACE int timidity_post_load_configuration(void);
+MAIN_INTERFACE void timidity_init_player(void);
+MAIN_INTERFACE int timidity_play_main(int nfiles, char **files);
+void timidity_init_aq_buff(void);
+USHORT APIENTRY mmioGetData( HMMIO hmmio, PMMIOINFO pmmioinfo, USHORT usFlags );
+int play_midi(MidiEvent *eventlist, int32 samples);
 #endif
 int read_config_file(char *name, int self);
 extern char def_instr_name[256];
@@ -107,7 +121,7 @@ ControlMode mcd_control_mode=
   ctl_event
 };
 
-static FILE *infp=stdin, *outfp=stdout; /* infp isn't actually used yet */
+static FILE *infp=0, *outfp=0; /* infp isn't actually used yet */
 
 typedef struct {
    ULONG param1;
@@ -142,7 +156,7 @@ typedef struct stinstance {
 } tinstance;
 
 tCuePoint CuePoints[50];
-int CuePointCount;
+int CuePointCount = 0;
 tCuePoint PosAdvise;
 
 tinstance myinstance;
@@ -184,6 +198,9 @@ ULONG Waitfor(tmsginfo *msginfo) {
       result=msginfo->Returncode;
       free(msginfo);
    } else result=MCIERR_SUCCESS;
+#ifdef EXCEPTQ_H_INCLUDED
+   UninstallExceptq(&reg);
+#endif
    return result;
 }
 
@@ -206,11 +223,23 @@ int InsertCuePoint(tCuePoint *NewCuePoint) {
    if (CuePointCount>=50) return MCIERR_CUEPOINT_LIMIT_REACHED;
    CuePoint=NewCuePoint->CuePoint;
    loop=0;
+#ifdef _PMPRINTF_
+   Pmpf(("CuePoint %u CuePointCount %i", CuePoint, CuePointCount));
+#endif
    while (loop<CuePointCount && CuePoints[loop].CuePoint<CuePoint) loop++;
-   if (CuePoints[loop].CuePoint<CuePoint) return MCIERR_DUPLICATE_CUEPOINT;
+#ifdef _PMPRINTF_
+   Pmpf(("CuePoint %u CuePoints %u CuePointCount %i", CuePoint, CuePoints[loop].CuePoint, CuePointCount));
+#endif
+   if (CuePointCount > 0 && CuePoints[loop].CuePoint==CuePoint) return MCIERR_DUPLICATE_CUEPOINT;
+   if (CuePointCount > 0) {
    loop2=CuePointCount-1;
    while (loop2>=loop) {CuePoints[loop2+1]=CuePoints[loop2]; loop2--;}
+   }
+#ifdef _PMPRINTF_
+   Pmpf(("CuePoint %u CuePoints %u", CuePoint, CuePoints[loop].CuePoint));
+#endif
    CuePoints[loop]=*NewCuePoint;
+   CuePointCount++;
    return MCIERR_SUCCESS;
 }
 
@@ -316,7 +345,7 @@ void *OpenTimidity(tmsginfo *msginfo) {
    int loop;
    int TranslateChange;
    PSZ mmbase;
-   char path[50];
+   char path[256];
    char *end;
    USHORT rc;
    HMMIO handle;
@@ -327,19 +356,11 @@ void *OpenTimidity(tmsginfo *msginfo) {
       end=(char *)index(path,';'); /*Why do I need to cast here?*/
       if (end) *end='\0';
       add_to_pathlist(path);
-#ifdef _PMPRINTF_
-      Pmpf(("TIMIDITYDIR %s", path));
-#endif
+
    }
    /*from main*/
    timidity_start_initialize();
-#ifdef _PMPRINTF_
-   DebugHereIAm();
-#endif
    timidity_pre_load_configuration();
-#ifdef _PMPRINTF_
-   DebugHereIAm();
-#endif
    timidity_post_load_configuration();
    timidity_init_player();
    /*from timidty_play_main*/
@@ -396,7 +417,9 @@ if (debugging) fprintf(debugfile,"currtime: %d SeekTo: %d\n",currtime,myinstance
             myinstance.SeekTo=-1L;
          }
          midi_restart_time=muldiv(currtime,play_mode->rate,myinstance.sectime);
-         play_midi(myinstance.event,myinstance.events,myinstance.samples,muldiv(currtime,play_mode->rate,myinstance.sectime));
+         play_midi(myinstance.event, myinstance.events);
+         //, myinstance.samples, muldiv(currtime,play_mode->rate,myinstance.sectime));
+         if (debugging) fprintf(debugfile,"Post Play Now!\n");
          msginfo->Notifycode=myinstance.PlayNotifycode;
          myinstance.status=MCI_MODE_STOP;
          break;
@@ -482,28 +505,17 @@ ULONG mciDriverEntry(tinstance *pInstance, USHORT usMessage, ULONG ulParam1,
    ULONG SeekTo;
    tCuePoint NewCuePoint;
    PSZ debugresult;
-#if 0
-   EXCEPTIONREGISTRATIONRECORD reg = {0};
+#ifdef EXCEPTQ_H_INCLUDED
+   
    EXCEPTIONREPORTRECORD err = {0};
-#endif   
+#endif
+#ifdef EXCEPTQ_H_INCLUDED
+         LoadExceptq(&reg, "DI", "exceptq loaded by Timidity MCD mciDriverEntry");
+#endif
    if (!debugfile) {
-
       if (DosScanEnv("TIMIDITYDEBUG",&debugresult)==NO_ERROR) {
-#ifdef _PMPRINTF_
-         Pmpf(("pathname %s",debugresult));
-#endif
-#if 0
-         InstallExceptq(&reg, "DI", "exceptq loaded by Timidity MCD mciDriverEntry");
-#endif
-         debugfile=open(debugresult, O_WRONLY | O_CREAT | O_TRUNC,
-                        S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP );
-         //fopen(debugresult,"w");
-#if 0
-         UninstallExceptq(&reg);
-#endif
-#ifdef _PMPRINTF_
-         DebugHereIAm();
-#endif
+
+         debugfile=fopen(debugresult,"w");
          setvbuf(debugfile,NULL,_IOLBF,0);
          debugging=1;
       } else {
@@ -511,17 +523,10 @@ ULONG mciDriverEntry(tinstance *pInstance, USHORT usMessage, ULONG ulParam1,
          debugging=0;
       }
    }
-#ifdef _PMPRINTF_
-   Pmpf(("Message Sent:%d\n ", usMessage));
-#endif
+
    if (debugging) fprintf(debugfile,"Message Sent:%d\n",usMessage);
-   close(debugfile);
-   return MCIERR_DEVICE_LOCKED;
    switch (usMessage) {
    case MCI_OPEN:
-#ifdef _PMPRINTF_
-      DebugHereIAm();
-#endif
       if (debugging) fprintf(debugfile,"Open File\n");
       if (instancerunning==1) DosSleep(200); /*It to finish shutting down*/
       if (instancerunning==1) return MCIERR_DEVICE_LOCKED;
@@ -568,7 +573,7 @@ if (debugging) fprintf(debugfile,"Enter place A: %s\n",open_parm->pszElementName
       msginfo->Returncode=MCIERR_SUCCESS;
       if (ulParam1 & MCI_WAIT) DosCreateEventSem(NULL,&(msginfo->finishSEM),0,FALSE);
       else msginfo->finishSEM=NULLHANDLE;
-      myinstance.threadid=_beginthread(OpenTimidity,NULL,65536,msginfo);
+      myinstance.threadid=_beginthread(OpenTimidity,NULL,65536 * 2,msginfo);
       return Waitfor(msginfo);
    case MCI_GETDEVCAPS:
       if (ulParam1 & MCI_GETDEVCAPS_MESSAGE) {
@@ -731,7 +736,7 @@ if (debugging) fprintf(debugfile,"Mode: %d SeekTo: %d\n",myinstance.status,SeekT
 if (debugging) fprintf(debugfile,"Filename: %s\n",((MCI_LOAD_PARMS *)(ulParam2))->pszElementName);
             mmioinfo.fccIOProc=mmioStringToFOURCC("MIDI",0);
             strcpy(currfile,((MCI_LOAD_PARMS *)(ulParam2))->pszElementName);
-            (HMMIO)((MCI_LOAD_PARMS *)(ulParam2))->pszElementName=mmioOpen(((MCI_LOAD_PARMS *)(ulParam2))->pszElementName,&mmioinfo,MMIO_READ | MMIO_DENYWRITE | MMIO_ALLOCBUF);
+            *(PHMMIO)((MCI_LOAD_PARMS *)(ulParam2))->pszElementName=mmioOpen(((MCI_LOAD_PARMS *)(ulParam2))->pszElementName,&mmioinfo,MMIO_READ | MMIO_DENYWRITE | MMIO_ALLOCBUF);
             if (!((HMMIO)((MCI_LOAD_PARMS *)(ulParam2))->pszElementName))
                return MCIERR_FILE_NOT_FOUND;
          } else {
@@ -741,6 +746,9 @@ if (debugging) fprintf(debugfile,"Filename: %s\n",((MCI_LOAD_PARMS *)(ulParam2))
          }
          break;
       case MCI_STOP:
+#ifdef _PMPRINTF_
+        DebugHereIAm();
+#endif
          if (myinstance.status==MCI_MODE_NOT_READY || myinstance.status==MCI_MODE_STOP) {
             free(msginfo);
             return MCIERR_SUCCESS;
@@ -751,8 +759,16 @@ if (debugging) fprintf(debugfile,"Filename: %s\n",((MCI_LOAD_PARMS *)(ulParam2))
             return MCIERR_FILE_NOT_FOUND;
          }
       case MCI_CLOSE:
-         if (ulParam1 & MCI_CLOSE_EXIT) return MCIERR_SUCCESS;
-         param2size=sizeof(MCI_GENERIC_PARMS);
+#ifdef _PMPRINTF_
+        DebugHereIAm();
+#endif
+        if (ulParam1 & MCI_CLOSE_EXIT) {
+#ifdef EXCEPTQ_H_INCLUDED
+            UninstallExceptq(&reg);
+#endif
+            return MCIERR_SUCCESS;
+        }
+        param2size=sizeof(MCI_GENERIC_PARMS);
       }
       msginfo->param2copy=memcpy(malloc(param2size),(void *)ulParam2,param2size);
       if ((ulParam1 & MCI_WAIT) /*&& usMessage!=MCI_CLOSE*/) /*Don't wait with close*/
@@ -784,6 +800,9 @@ if (debugging) fprintf(debugfile,"Callback=%d\n",PosAdvise.Callback);
          NewCuePoint.CuePoint=mmtimetotime(((PMCI_CUEPOINT_PARMS)ulParam2)->ulCuepoint);
          NewCuePoint.Callback=((PMCI_CUEPOINT_PARMS)ulParam2)->hwndCallback;
          NewCuePoint.UserParm=((PMCI_CUEPOINT_PARMS)ulParam2)->usUserParm;
+#ifdef _PMPRINTF_
+         Pmpf(("CuePoint %u ", NewCuePoint.CuePoint));
+#endif
          return InsertCuePoint(&NewCuePoint);
       } else return DeleteCuePoint(mmtimetotime(((PMCI_CUEPOINT_PARMS)ulParam2)->ulCuepoint));
    case MCI_ACQUIREDEVICE:
@@ -865,4 +884,3 @@ int main(int argc, char *argv[]) {
    mciDriverEntry(instance,MCI_CLOSE,MCI_WAIT,(ULONG)&generic_parm,0);
    }
 */
-
