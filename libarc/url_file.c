@@ -68,7 +68,7 @@
 #define O_BINARY 0
 #endif
 
-#if 1
+#if 0
 #include "..\libunimod\unimod.h"
 #define  _PMPRINTF_
 #include "PMPRINTF.H"
@@ -238,7 +238,6 @@ URL url_file_open(char *fname)
 #ifdef _PMPRINTF_
     Pmpf(("url_file_open(%s)", fname));
 #endif
-    fname = "E:/Programs/Timidity/Timidity.cfg";
     fp = NULL;
     mapsize = 0;
     errno = 0;

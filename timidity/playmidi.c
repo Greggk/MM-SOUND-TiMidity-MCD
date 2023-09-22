@@ -54,6 +54,11 @@
 #include "wrd.h"
 #include "aq.h"
 
+#if 0
+#define  _PMPRINTF_
+#include "PMPRINTF.H"
+#endif
+
 extern VOLATILE int intr;
 
 #ifdef SOLARIS
@@ -4223,7 +4228,7 @@ int play_event(MidiEvent *ev)
 }
 
 #ifndef MCD
-static 
+static
 #endif
 int play_midi(MidiEvent *eventlist, int32 samples)
 {
@@ -4246,11 +4251,15 @@ int play_midi(MidiEvent *eventlist, int32 samples)
 	play_midi_prescan(eventlist);
 	reset_midi(0);
     }
-
+#ifdef _PMPRINTF_
+    DebugHereIAm();
+#endif
     rc = aq_flush(0);
     if(RC_IS_SKIP_FILE(rc))
 	return rc;
-
+#ifdef _PMPRINTF_
+    DebugHereIAm();
+#endif
     skip_to(midi_restart_time);
 
     if(midi_restart_time > 0) { /* Need to update interface display */
@@ -4261,10 +4270,16 @@ int play_midi(MidiEvent *eventlist, int32 samples)
     rc = RC_NONE;
     for(;;)
     {
-	rc = play_event(current_event);
+#ifdef _PMPRINTF_
+        DebugHereIAm();
+#endif
+        rc = play_event(current_event);
 	if(rc != RC_NONE)
 	    break;
-	current_event++;
+        current_event++;
+#ifdef _PMPRINTF_
+        DebugHereIAm();
+#endif
     }
 
     if(play_count++ > 3)
@@ -4276,6 +4291,9 @@ int play_midi(MidiEvent *eventlist, int32 samples)
 	    ctl->cmsg(CMSG_INFO, VERB_VERBOSE,
 		      "%d memory blocks are free", cnt);
     }
+#ifdef _PMPRINTF_
+    DebugHereIAm();
+#endif
     return rc;
 }
 

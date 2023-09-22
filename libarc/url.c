@@ -33,7 +33,7 @@
 #include "timidity.h"
 #include "url.h"
 
-#if 1
+#if 0
 #include "..\libunimod\unimod.h"
 #define  _PMPRINTF_
 #include "PMPRINTF.H"

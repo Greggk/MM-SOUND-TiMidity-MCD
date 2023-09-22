@@ -50,7 +50,7 @@
 #include "strtab.h"
 #include "unimod.h"
 
-#if 1
+#if 0
 #define  _PMPRINTF_
 #include "PMPRINTF.H"
 #endif
