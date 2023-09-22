@@ -94,7 +94,7 @@ EMACS = no
 ESD_CFLAGS = 
 ESD_CONFIG = 
 ESD_LIBS = 
-EXTRALIBS =  -los2me
+EXTRALIBS =  -los2me.lib
 GTK_CFLAGS = 
 GTK_CONFIG = 
 GTK_LIBS = 
@@ -106,7 +106,7 @@ PACKAGE = TiMidity++
 RANLIB = ranlib
 SHCFLAGS =  -fPIC
 SHELL = X:/usr/bin/sh.exe
-SHLD = gcc -shared  -Lu -L/emx/lib -L/usr/local/lib
+SHLD = gcc -shared  -L/usr/local/lib
 SYSEXTRAS =  dart_a.c
 VERSION = 2.10.4
 WISH = wish
@@ -148,9 +148,10 @@ DEFS = -DHAVE_CONFIG_H -DMCD -DIA_MCD -D__EMX__ -D__ST_MT_ERRNO__ -I. -I$(srcdir
 else
 DEFS = -DHAVE_CONFIG_H -D__EMX__ -D__ST_MT_ERRNO__ -I. -I$(srcdir) -I.. -I..
 endif
-CPPFLAGS =  -Iu -I/emx/include -I/usr/local/include -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
-LDFLAGS =  -Lu -L/emx/lib -L/usr/local/lib
-LIBS = -lsocket -lm       -los2me  pmprintf.a
+CPPFLAGS =  -I/usr/include -DHAVE_UNION_SEMUN -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+LDFLAGS =  -L/usr/lib  -L.
+LIBS = -lsocket -lm -ldl      -los2me 
+# -lpmprintf
 X_CFLAGS = 
 X_LIBS = 
 X_EXTRA_LIBS = 
@@ -164,12 +165,12 @@ timidMCD_OBJECTS = mcd_c.o muldiv.o
 ifdef MCD
 CFLAGS =  -g -Zmtd
 else
-CFLAGS =   -O2 -Zmtd
+CFLAGS =  -g  -O2 -Zmtd
 endif
 COMPILE = $(CC) $(CFLAGS) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) 
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -Zmtd -o $@
-LINKMCD = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -Zmtd -Zdll -Zmap -o timidity.dll timidmcd.def
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -Zomf -Zmap -Zmtd -o $@ timidity.def
+LINKMCD = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -Zomf -Zmap -Zmtd -Zdll -o timidity.dll timidmcd.def
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -242,11 +243,12 @@ timidityprep:
 timidity.exe: $(timidity_OBJECTS) $(timidity_DEPENDENCIES)
 	@rm -f timidity.exe
 	$(LINK) $(timidity_LDFLAGS) $(timidity_OBJECTS) $(timidity_LDADD) $(LIBS)
-
+	mapsymw.pl timidity.map
+	
 timidity.dll: $(timidity_OBJECTS) $(timidMCD_OBJECTS) $(timidity_DEPENDENCIES)
 	@rm -f timidity.dll
 	$(LINKMCD) $(timidity_LDFLAGS) $(timidity_OBJECTS) $(timidMCD_OBJECTS) $(timidity_LDADD) $(LIBS)
-	mapsym timidity.map
+	mapsymw.pl timidity.map
 	
 tags: TAGS
 

@@ -101,7 +101,7 @@ PACKAGE = TiMidity++
 RANLIB = ranlib
 SHCFLAGS =  -fPIC
 SHELL = X:/usr/bin/sh.exe
-SHLD = gcc -shared  -Lu -L/emx/lib -L/usr/local/lib
+SHLD = gcc -shared  -L/usr/local/lib
 SYSEXTRAS =  dart_a.c
 VERSION = 2.10.4
 WISH = wish
@@ -132,11 +132,14 @@ CONFIG_HEADER = ../config.h ../interface.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
-
+ifdef MCD
+DEFS = -DHAVE_CONFIG_H -DMCD -DIA_MCD -D__EMX__ -D__ST_MT_ERRNO__ -I. -I$(srcdir) -I.. -I..
+else
 DEFS = -DHAVE_CONFIG_H -Zmtd -D__ST_MT_ERRNO__ -I. -I$(srcdir) -I.. -I..
-CPPFLAGS =  -Iu -I/emx/include -I/usr/local/include -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
-LDFLAGS =  -Lu -L/emx/lib -L/usr/local/lib
-LIBS = -lsocket -lm       -los2me
+endif
+CPPFLAGS =  -I/usr/local/include -DHAVE_UNION_SEMUN -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+LDFLAGS =  -L/usr/local/lib
+LIBS = -lsocket -lm -ldl      -los2me
 X_CFLAGS = 
 X_LIBS = 
 X_EXTRA_LIBS = 
@@ -146,10 +149,14 @@ deflate.o explode.o inflate.o unlzh.o url.o url_b64decode.o url_buff.o \
 url_cache.o url_dir.o url_file.o url_hqxdecode.o url_inflate.o \
 url_mem.o url_pipe.o url_qsdecode.o url_uudecode.o url_mmio.o
 AR = ar
-CFLAGS =  -O2
+ifdef MCD
+CFLAGS =  -g -Zmtd
+else
+CFLAGS =  -g -O2
+endif
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -Zomf -Zmap -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 

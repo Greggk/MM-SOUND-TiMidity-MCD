@@ -239,7 +239,7 @@ CC = gcc
 CCDEPMODE = depmode=none
 CFLAGS =  -O2
 CPP = gcc -E
-CPPFLAGS =  -Iu -I/emx/include -I/usr/local/include -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+CPPFLAGS =  -I/usr/local/include -DHAVE_UNION_SEMUN -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -265,9 +265,9 @@ INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 INTERFACE_SRCS = 
-LDFLAGS =  -Lu -L/emx/lib -L/usr/local/lib
+LDFLAGS =  -L/usr/local/lib
 LIBOBJS = 
-LIBS = -lsocket -lm       -los2me
+LIBS = -lsocket -lm -ldl      -los2me
 LN_S = ln -s
 LTLIBOBJS = 
 MAKEINFO = makeinfo
@@ -286,7 +286,7 @@ RANLIB = ranlib
 SET_MAKE = 
 SHCFLAGS =  -fPIC
 SHELL = X:/usr/bin/sh.exe
-SHLD = gcc -shared  -Lu -L/emx/lib -L/usr/local/lib
+SHLD = gcc -shared  -L/usr/local/lib
 STRIP = 
 SYSEXTRAS =  dart_a.c
 T_so_libs = 

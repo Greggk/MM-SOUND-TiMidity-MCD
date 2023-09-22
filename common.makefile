@@ -34,12 +34,12 @@ SHELL=X:/usr/bin/sh.exe
 ##CFLAGS = -O6 -mpentium -fomit-frame-pointer -funroll-all-loops -ffast-math \
 ##         -fno-peep-spills \
 ##         -fno-exceptions -malign-jumps=0 -malign-loops=0 -malign-functions=0
-#CPPFLAGS =  -Iu -I/emx/include -I/usr/local/include -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
+#CPPFLAGS =  -I/usr/local/include -DHAVE_UNION_SEMUN -DAU_DART $(DEF_PKGDATADIR) $(DEF_PKGLIBDIR) $(DEF_DEFAULT_PATH) -DTIMIDITY_OUTPUT_ID=\"d\"
 
 #DEFS = -DHAVE_CONFIG_H
-#LDFLAGS =  -Lu -L/emx/lib -L/usr/local/lib
-#LIBS = -lsocket -lm       -los2me
-#SHLD = gcc -shared  -Lu -L/emx/lib -L/usr/local/lib
+#LDFLAGS =  -L/usr/local/lib
+#LIBS = -lsocket -lm -ldl      -los2me
+#SHLD = gcc -shared  -L/usr/local/lib
 #SHCFLAGS =  -fPIC
 #
 

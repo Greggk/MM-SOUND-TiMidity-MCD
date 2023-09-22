@@ -45,7 +45,7 @@
 #define HAVE_GLOB_H 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-/* #undef HAVE_INTTYPES_H */
+#define HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the `isatty' function. */
 #define HAVE_ISATTY 1
@@ -144,7 +144,7 @@
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the `strncasecmp' function. */
-/* #undef HAVE_STRNCASECMP */
+#define HAVE_STRNCASECMP 1
 
 /* Define to 1 if you have the <stropts.h> header file. */
 /* #undef HAVE_STROPTS_H */
@@ -182,7 +182,7 @@
 #define HAVE_SYS_PARAM_H 1
 
 /* Define to 1 if you have the <sys/shm.h> header file. */
-/* #undef HAVE_SYS_SHM_H */
+#define HAVE_SYS_SHM_H 1
 
 /* Define to 1 if you have the <sys/soundcard.h> header file. */
 /* #undef HAVE_SYS_SOUNDCARD_H */
@@ -203,7 +203,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define to 1 if you have the `usleep' function. */
-/* #undef HAVE_USLEEP */
+#define HAVE_USLEEP 1
 
 /* Define to 1 if you have the `vprintf' function. */
 #define HAVE_VPRINTF 1
