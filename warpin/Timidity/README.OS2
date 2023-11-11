@@ -1,0 +1,203 @@
+TiMidity MCD 2.10.2
+
+About TiMidity
+--------------
+
+TiMidity plays MIDI and Module (.MOD) files.  It does it in software without
+depending on any hardware MIDI support your south card might have. Sound 
+quality can be much higher because it limited by your CPU's power and 
+memory rather then your sound card's power and memory.
+
+TiMidity usually comes as a stand alone player.  TiMidity MCD is a
+special version that installs as part of OS/2 Multimedia system so that
+most applications that played MIDI files through your sound card before,
+can now play MIDIs through TiMidity at a higher quality.  This includes
+the Multimedia Workplace Shell objects and the Plug-in Pack for
+Netscape.  Applications that use RTMIDI, or DOS and Win3.1 applications
+cannot use it.
+
+Installation for new users
+--------------------------
+
+0. The emx run type library is required.  It is available here:
+http://ftp-os2.nmsu.edu/pub/os2/dev/emx/v0.9d/emxrt.zip
+
+1. Unzip the archive into a directory. 
+
+2. Run Multimedia Application Install. In OS/2 Warp 4 this is in the 
+Install/Remove folder of the System Setup. You can also execute it by 
+typing "minstall" from the command line.
+
+3. Select the directory you uncompressed the archive into.
+
+4. Click the Install button. If it crushes with a SYS3175 try again, but 
+move the window part way off the screen before pressing the Install button.
+
+5. DO NOT open Multimedia Setup before rebooting.
+
+6. Edit the config.sys and add line that says:
+
+SET TIMIDITYDIR=path
+
+where path this the location where you uncompressed the archive into.
+
+7. Reboot. 
+
+8. Open Multimedia Setup. In OS/2 Warp 4 this is in the System Setup.
+
+9. If installation was successful you should now have a tab labeled
+TiMidity.  You can now set TiMidity as the default sequencer (sequencer
+basically means MIDI player) by checking the "Default Sequencer device"
+checkbox.  If you have another sequencer you have to remove the file
+associations from it before you can add them to TiMidity.  To do this
+click on the tab for the other sequencer and click the plus or press
+Page Down to see what associations it has and remove them.  Sometime the
+Remove button will be greyed out even if you've got one selected to
+remove.  What you can do is add a random type or extension and the
+Remove button will activate.  You can then remove the one you just added
+and any others you want.  Once you got all the type and extensions
+associations removed from your old sequencer you can go to TiMidity tab,
+go to the next page and add associations for the MIDI type and add the
+extensions MID, MOD, S3M, XM and any other extension that you have for
+MOD files.
+
+10. Reboot.
+
+TiMidity MCD will now be used play any MIDI and MOD files on your system. 
+From the Workplace shell you and use Open as|Play (the default) or Open 
+as|Player. The Open as|Editor option does not work.
+
+To play MIDI files TiMidity need patches.  MIDI files only contains the
+notes, not the sounds of the instruments.  The patch files contain the
+sounds of the instruments.  TiMidity MCD only comes with patch files for
+two instruments, piano and guitar, so if you play a MIDI file those are
+the only instruments you can hear.  If you download some random MIDI
+from the Internet you're hear little or nothing.  However TiMidity comes
+with some sample MIDIs that only need the piano and guitar patches.  The
+are in under the midi directory.  OS/2 comes with a selection of sample
+MIDIs some of which only use the piano patch.  They are:
+
+    BLUESINF.MID 
+    ETUDEE.MID 
+    FANTAISI.MID 
+    FURELIST.MID 
+    MLSONOTA.MID 
+    NOCTURND.MID 
+    NOCTURNE.MID 
+    POLONAIS.MID 
+    REVERIE.MID 
+    SANMARTA.MID 
+    SONATAA.MID 
+    SOATACA.MID 
+    SONATACR.MID 
+    WALTZC.MID 
+    WALTZD.MID 
+    WALTZE.MID
+
+Now you're going to need some patch sets so you can hear MIDIs with more
+then just one instrument.  TiMidity 2.8.1 supports both GUS (Gravis
+UltraSound) patch sets and Creative Labs SoundFont.  GUS patch sets are
+available from my home page and the TiMidity++ home page.  See the links
+below.  To install patches you must edit the timidity.cfg file.  The
+file cfg.txt contains details on the format of the timidity.cfg file.
+MOD files do not require patch sets because the instrument sounds are
+included with the files.
+
+Installation for existing users
+-------------------------------
+
+1. Unzip the archive into a temporary directory. 
+
+2. Copy timidity.dll over your existing timidity.dll in the \mmos2\dll 
+directory. If the file is locked you can do this step after you reboot 
+(see step 6).
+
+3. Edit the config.sys and add line that says:
+
+SET TIMIDITYDIR=path
+
+where path this the location of your current TiMidity directory, such as
+C:\TIMIDITY.  Basically it has to be the directory where you store your
+timidity.cfg file.
+
+4. Open Multimedia Setup and click on the TiMidity tab.  Select the next
+page by click on the plus or pressing Page Down to see the current
+associations.  Add MOD, MOD, S3M, XM and any other extension that you
+have for MOD files to the current extensions.
+
+5. Reboot.
+
+6. Do step 2 if you didn't do it already.
+
+TiMidity should be now upgraded.  Sound quality should be better then it
+was before.  You also can now play MOD files as well as MIDI files and
+you have the option of using SoundFonts as well as GUS patches.
+TiMidity no longer generates the C:\TIM.LOG file by default.
+
+Playing MOD file from Netscape
+------------------------------
+
+The Netscape Plugin Pack is not aware of OS/2 Multimedia new found ability 
+to play MOD files with the MIDI subsystem. I have included a file which 
+fixes this problem. To install this you must shut down Netscape and go to 
+the netscape/programs/plugins directory. Make a backup copy of the file 
+NPOS2MID.DLL and copy the NPOS2MID.DLL form the TiMidity archive. When you 
+restart Netscape files with the extension MOD will be associated with OS/2 
+Multimedia MIDI PlugIn.
+
+If you're interested, I'll explain how I did this:  The Netscape plugin
+pack installs one large dll, NPNULOS2.DLL and several tiny dlls
+(NPOS2MID.DLL, NPOS2AUD.DLL and NPOS2VID.DLL) into the plugins
+directory.  NPNULOS2.DLL does all the work and the other DLLs simply
+forward requests to it.  The only thing that the DLLs contains are a
+series of resources that define the MIME types, description, file
+extension and some copyright information.  I was able to use Universal
+Resource Editor (URE) that comes with the OS/2 Toolkit to modify the
+resources and add a new file extension for the NPOS2MID.DLL.  I tried
+using some of the shareware resource extractors, but I was unable to get
+rc.exe to compile the resources they extracted.
+
+Problems
+--------
+
+Using the WPS Player can cause the WPS to restart without displaying an
+error.  If you use the WPS Play option, by double clicking directly on
+the Midi file this will work and from then on the WPS Player will work,
+too.  This may not be problem with TiMidity and it may even happen with
+the standard MIDI player.  If someone wants to test that it would help
+me.
+
+If you run MMCheck from Theta Band Software after installing TiMidity MCD
+you will get some warnings about key MCDDRIVER and key EXTNAMES, but these
+are not really problems. MMCheck expects the standard MIDI MCD, not 
+TiMidity. If you get errors or warnings about something else in the 
+Sequencer driver section that you're concerned about, let me know.
+
+If you're having a problem with TiMidity MCD please email me at the address 
+at the end of this file. Please give me the steps you did that caused the 
+problem and a debug log. To create a debug log add a line in your config.sys
+that says
+
+SET TIMIDITYDEBUG=file
+
+where file is the path and filename for the debug file, such as C:/TIM.LOG. 
+After you reboot when you try and use TiMidity it will record it's 
+activities. The log will be cleared every time you restart the application 
+that uses TiMidity.
+
+You should be aware the the time I have to work on TiMidity is very limited
+and sporadic. If you find a problem it could be a very long time before I get 
+around to fixing it. Luckally TiMidity is open source software, so other
+people can still work on it, even if I can't.
+
+Links
+-----
+
+TiMidity MCD for OS/2 Homepage (the source code will be here):
+http://www.reamined.on.ca/doconnor/timidity.html
+
+TiMidity++ Homepage:
+http://www.goice.co.jp/member/mo/timidity/
+
+Darwin O'Connor
+doconnor@reamined.on.ca

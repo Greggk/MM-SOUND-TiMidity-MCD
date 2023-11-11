@@ -1,0 +1,22 @@
+package="TiMidity for OS/2"
+codepage=437
+filelist="MASTER.DSK"
+groupcount=1
+munitcount=1
+medianame="Contents of TiMidity archive"
+/*** Source Directorys ***/
+sourcedir = "\\"                            = 0
+/*** Destination Directorys ***/
+destindir = "\\MMOS2\\DLL\\"                           = 2
+destindir = "\\MMOS2\\INSTALL\\"                           = 3
+
+/*** Groups ***/
+
+ssgroup=15              /*  MyCodec group */
+sssize=1400
+ssname="TiMidity MCD"
+ssversion="2.10.4"
+ssinich="TIMIDMCD.SCR"
+ssicon="TIMIDITY.ICO"
+ssselect="YES"
+

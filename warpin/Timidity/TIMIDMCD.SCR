@@ -1,0 +1,57 @@
+       MciInstallDrv =
+           (
+           DrvInstallName     = "DOCTiMidity01"
+           DrvDeviceType      = 8
+           DrvDeviceFlag      = 01L
+           DrvVersionNumber   = "2.10"
+           DrvProductInfo     = "TiMidity 2.10.4"
+           DrvMCDDriver       = "TIMIDITY"
+           DrvMCDTable        = "MDM"
+           DrvVSDTable        = ""
+           DrvShareType       = 1
+           DrvResourceName    = "TiMidity01"
+           DrvResourceUnits   = 1
+           DrvClassArray[1]  =
+                (
+                     ( DrvClassNumber = 1 )
+                )
+           )
+/*       MciInstallParm =
+           (
+           ParmInstallName   = "MyWaveSB01"
+           ParmString        = "FORMAT=1,SAMPRATE=22050,BPS=8,CHANNELS=2,DIRECTION=PLAY"
+           )*/
+       
+       
+/*       MciInstallConn =
+           (
+           ConnInstallName="MyWaveSB01"
+           ConnArray[1]=
+                (
+                   (
+                   ConnType=3                   / Wavestream connector /
+                   ConnInstallTo="MyAmpMixSB01" / Connect to ampmixer  /
+                   ConnIndexTo=1                / First connector in
+                                                   ampmixer             /
+                   )
+                )
+           )
+*/       
+       
+       MciInstallAlias =
+           (
+           AliasInstallName="DOCTiMidity01"
+           AliasString="TiMidity"
+           )
+       
+       
+       MciInstallExt =
+           (
+           ExtInstallName = "DOCTiMidity01"
+           ExtArray[2] =
+              (
+                 (ExtString = "MID")
+                 (ExtString = "MOD")
+             )
+           )
+
