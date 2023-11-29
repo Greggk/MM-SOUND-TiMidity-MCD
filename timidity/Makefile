@@ -249,6 +249,7 @@ timidity.dll: $(timidity_OBJECTS) $(timidMCD_OBJECTS) $(timidity_DEPENDENCIES)
 	@rm -f timidity.dll
 	$(LINKMCD) $(timidity_LDFLAGS) $(timidity_OBJECTS) $(timidMCD_OBJECTS) $(timidity_LDADD) $(LIBS)
 	mapsymw.pl timidity.map
+	@cp timidity.dll timidity,sym ../warpin/timidity
 	
 tags: TAGS
 
